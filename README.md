@@ -3,19 +3,23 @@
 ## Pre-requisite
 
 ### Nginx Ingress and Cert-Manager Deployment
-Reference:
+Reference
+```
 https://docs.nginx.com/nginx-ingress-controller/overview/design/
 https://gist.github.com/devorbitus/a292aa1bed559c9b87053aa0fe21d094
-
+```
 This should be deployed before installing the Akeyless gateway.
 Once deployed, identify the external IP address for ingress-nginx-controller.
 
 ### DNS configuration 
 GCP - Cloud DNS
+
 AWS - Route 53
+
 Azure -  Azure DNS
 
-Create cluster issuer with ingress set as nginx. 
+Create cluster issuer with nginx ingress. 
+
 Note: private key secrect reference will be created at runtime, no need to create earlier.
 ```
 cat <<EOF | kubectl apply -f -
@@ -64,21 +68,30 @@ brew install hashicorp/tap/terraform
 brew install helm
 ```
 Install Akeyless CLI
-$ brew install akeylesslabs/tap/akeyless
+```
+brew install akeylesslabs/tap/akeyless
+```
 
 Configure Akeyless using profile with admin priviledges
-$ akeyless configure --profile default 
+```
+akeyless configure --profile default 
+```
 
 List configured profiles 
-$ ls -al ~/.akeyless/profiles/
-$ cat ~/.akeyless/profiles/default.toml
+```
+ls -al ~/.akeyless/profiles/
+cat ~/.akeyless/profiles/default.toml
+```
 Delete a Profile (Optional)
+```
 akeyless unconfigure --profile default
+```
 
 ### Create auth_method for Akeyless Gateway
 #### Default with API key
 ```
-akeyless auth-method create api-key --profile default --name /devops/devops-api-key --json true | tee devops-api-key.json
+akeyless auth-method create api-key --profile default --name /devops/devops-api-key --json true | tee 
+devops-api-key.json
 {
   "name": "/devops/devops-api-key",
   "access_id": "p-xyz",
@@ -87,19 +100,12 @@ akeyless auth-method create api-key --profile default --name /devops/devops-api-
 akeyless auth-method list --filter '/devops/devops-api-key'
 ```
 
-Create Access Role
+Create Access Role and its rules and associate the role with Auth Method
 ```
 akeyless create-role --profile default -n /devops/devops-api-role
 akeyless list-roles --profile default --filter '/devops/devops-api-role'
-```
-
-Associate Auth Method to Role
-```
 akeyless assoc-role-am -r  /devops/devops-api-role -a /devops/devops-api-key
-```
 
-Add Rule to Role
-```
 akeyless set-role-rule -r /devops/devops-api-role -p "/devops/*" --rule-type item-rule -c read -c create -c update -c delete -c delete -c list
 akeyless set-role-rule -r /devops/devops-api-role -p "/devops/*" --rule-type role-rule -c read -c create -c update -c delete -c delete -c list
 akeyless set-role-rule -r /devops/devops-api-role -p "/devops/*" --rule-type target-rule -c read -c create -c update -c delete -c delete -c list
