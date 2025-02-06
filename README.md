@@ -18,7 +18,10 @@ AWS - Route 53
 
 Azure -  Azure DNS
 
-Create cluster issuer with nginx ingress. 
+Notes: if your hosted DNS registrar is not your domain controller, you need to add an NS
+record in your domain controller.
+
+### Create cluster issuer with nginx ingress. 
 
 Note: private key secrect reference will be created at runtime, no need to create earlier.
 ```
@@ -88,7 +91,12 @@ akeyless unconfigure --profile default
 ```
 
 ### Create auth_method for Akeyless Gateway
-#### Default with API key
+Reference
+```
+https://docs.akeyless.io/docs/gateway-chart#authentication
+```
+
+#### API key
 ```
 akeyless auth-method create api-key --profile default --name /devops/devops-api-key --json true | tee 
 devops-api-key.json
@@ -111,7 +119,11 @@ akeyless set-role-rule -r /devops/devops-api-role -p "/devops/*" --rule-type rol
 akeyless set-role-rule -r /devops/devops-api-role -p "/devops/*" --rule-type target-rule -c read -c create -c update -c delete -c delete -c list
 akeyless set-role-rule -r /devops/devops-api-role -p "/devops/*" --rule-type auth-method-rule -c read -c create -c update -c delete -c delete -c list
 ```
-
+Store the access key for the gateway with defined key
+```
+kubectl create secret generic access-key --namespace waynez \
+  --from-literal=gateway-access-key=JSomethingSpecial=
+```
 #### Cloud Native with GCP 
 
 
