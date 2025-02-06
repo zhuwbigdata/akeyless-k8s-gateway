@@ -55,14 +55,6 @@ gcloud components install kubectl
 gcloud components install gke-gcloud-auth-plugin
 ```
 
-Configure GCP CLI and get credentials for a specific K8S cluster 
-```
-gcloud auth login
-gcloud auth application-default login
-gcloud services enable container.googleapis.com
-gcloud container clusters list
-gcloud container clusters get-credentials [CLUSTER_NAME] --zone [ZONE]
-```
 
 Install Terraform and Helm
 ```
