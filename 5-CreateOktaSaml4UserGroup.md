@@ -1,5 +1,31 @@
 # Okta on SAML 
 
+## Create SAML auth method 
+```
+Add create CMD here ...
+
+akeyless auth-method list --filter /devops/okta_saml_auth_using_subclaim
+```
+
+## Create Access Roles and associate with SAML auth method
+```
+Add create CMD here
+akeyless list-roles --filter /devops/devops_TL
+akeyless list-roles --filter /devops/devops_ENGR
+```
+
+## Set rules for Access Roles
+- RBAC on /devops/devops_TL
+  - Items on /devops/*: list,read, create, update, delete
+  - Access Roles on /devops/*: list,read, create, update, delete
+  - Auth Methods on /devops/*: list,read, create, update, delete
+- RBAC on /devops/devops_ENGR: 
+  - Items on /devops/*: list, read
+```
+Add CMD here
+```
+
+
 ## Create Okta dev instance (personal)
 ```
 https://dev-{your_own_id}-admin.okta.com
