@@ -1,4 +1,7 @@
 # Create Akeyless API key for Gateway
+Reference
+(https://docs.akeyless.io/docs/gateway-chart#authentication)
+
 
 ## Configure Akeyless CLI with SaaS
 Configure Akeyless using profile with admin priviledges
