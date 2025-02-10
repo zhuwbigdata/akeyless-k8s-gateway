@@ -20,7 +20,7 @@ globalConfig:
   ## See docs for examples https://docs.akeyless.io/docs/gateway-chart#gateway-admins
   ##
   allowedAccessPermissions:
-    - name: access4admin
+    access4admin:
       access_id: p-value4Admin 
       sub_claims:
         groups:
@@ -28,6 +28,7 @@ globalConfig:
       case_sensitive: false
       permissions:
         - admin
+ 
 
   ## Use a K8s existing secret for Gateway Allowed Access. Must include the following key: allowed-access-permissions
   ## https://docs.akeyless.io/docs/gateway-chart#access-permissions
